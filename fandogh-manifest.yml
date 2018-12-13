@@ -1,0 +1,25 @@
+kind: ManagedService
+name: db
+spec:
+  service_name: mysql
+  version: 5.7
+  parameters:
+    - name: phpmyadmin_enabled
+      value: true
+    - name: mysql_root_password
+      value: ${MYSQL_PASSWORD}
+
+---
+
+kind: ExternalService
+name: zonda
+spec:
+  image: zonda
+  port: 80
+  env:
+  - name: WORDPRESS_DB_HOST
+    value: "db:3306"
+  - name: WORDPRESS_DB_USER
+    value: root
+  - name: WORDPRESS_DB_PASSWORD
+    value: ${MYSQL_PASSWORD}
